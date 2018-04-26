@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View view) {
 
 
-                if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
 
@@ -110,12 +110,15 @@ public class MainActivity extends AppCompatActivity{
                         }
                     });
 
+                    Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+                    if (location != null) {
+                        WegePunkt wegePunkt = new WegePunkt(new Date(), location.getLatitude(), location.getLongitude());
+                        Log.d("Wegepunkt", wegePunkt.toString());
+                    }
 
                 }
-                Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-                WegePunkt wegePunkt = new WegePunkt(new Date(), location.getLatitude(), location.getLongitude());
-                Log.d("Wegepunkt", wegePunkt.toString());
 
             }
         });
