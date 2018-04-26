@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Wegepunkte</string>
+    <string name="btn_save">save Waypoint</string>
+    <string name="btn_show">show Waypoints</string>
+</resources>
