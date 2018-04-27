@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -20,11 +21,12 @@ import android.widget.Toast;
 
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     // DATA FIELDS
     private Button btn_show;
     private Button btn_save;
+    private Button btn_route;
     private LocationManager locationManager;
     private boolean isGPSEnabled;
     private WegepunktRepo wegepunkte;
@@ -67,6 +69,7 @@ public class MainActivity extends AppCompatActivity{
     private void initComponents() {
         btn_save = (Button) findViewById(R.id.btn_save);
         btn_show = (Button) findViewById(R.id.btn_show);
+        btn_route = (Button) findViewById(R.id.btn_route);
         btn_save.setEnabled(false);
         isGPSEnabled = false;
         wegepunkte = new WegepunktRepo();
@@ -83,6 +86,26 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
+        btn_route.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+        if(wegepunkte.size() > 1) {
+            WegePunkt startPunkt = wegepunkte.get(0);
+            WegePunkt endPunnkt = wegepunkte.get(1);
+
+            String url = "https://www.google.com/maps/dir/?api=1&origin=";
+            double latitudeStart =startPunkt.getLatitude();
+            double longitudeStart = startPunkt.getLongitude();
+            double latitudeEnd = endPunnkt.getLatitude();
+            double longitudeEnd = endPunnkt.getLongitude();
+
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url + latitudeStart + "," + longitudeStart + "&destination=" + latitudeEnd + "," + longitudeEnd));
+            startActivity(intent);
+
+
+        }
+            }
+        });
 
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,7 +145,7 @@ public class MainActivity extends AppCompatActivity{
                         WegePunkt wegePunkt = new WegePunkt(new Date(), location.getLatitude(), location.getLongitude());
                         Log.d("Wegepunkt", wegePunkt.toString());
                         wegepunkte.add(wegePunkt);
-                        Toast.makeText(MainActivity.this, "Wegepunkt wurde gespeichert", Toast.LENGTH_LONG).show();
+                        Toast.makeText(MainActivity.this, "Wegepunkt wurde gespeichert", Toast.LENGTH_SHORT).show();
                     }
 
                 }
