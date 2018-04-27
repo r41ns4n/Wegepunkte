@@ -1,10 +1,11 @@
 package sabel.com.wegepunkte;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
-public class WegePunkt {
+public class WegePunkt implements Serializable{
 
     // DATA FIELDS
     private Date timestamp;

@@ -1,9 +1,10 @@
 package sabel.com.wegepunkte;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WegepunktRepo {
+public class WegepunktRepo implements Serializable {
 
     // DATA FIELDS
     private List<WegePunkt> wegepunkte;
@@ -16,7 +17,7 @@ public class WegepunktRepo {
 
     // METHODS
 
-    private void add(WegePunkt wegePunkt) {
+    public void add(WegePunkt wegePunkt) {
         if (wegePunkt != null) {
             wegepunkte.add(wegePunkt);
         }
@@ -34,6 +35,9 @@ public class WegepunktRepo {
         return wegepunkte.size();
     } // END INT SIZE
 
+    public List<WegePunkt> getWegepunkte() {
+        return wegepunkte;
+    }
 
     @Override
     public String toString() {

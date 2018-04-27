@@ -2,6 +2,7 @@ package sabel.com.wegepunkte;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -14,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.Date;
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity{
     private Button btn_save;
     private LocationManager locationManager;
     private boolean isGPSEnabled;
+    private WegepunktRepo wegepunkte;
 
 
     // METHODS
@@ -66,6 +69,7 @@ public class MainActivity extends AppCompatActivity{
         btn_show = (Button) findViewById(R.id.btn_show);
         btn_save.setEnabled(false);
         isGPSEnabled = false;
+        wegepunkte = new WegepunktRepo();
     } // END INITCOMPONENTS
 
 
@@ -73,7 +77,9 @@ public class MainActivity extends AppCompatActivity{
         btn_show.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(MainActivity.this, ListViewActivity.class);
+                intent.putExtra("wegepunkte", wegepunkte);
+                startActivity(intent);
             }
         });
 
@@ -115,6 +121,8 @@ public class MainActivity extends AppCompatActivity{
                     if (location != null) {
                         WegePunkt wegePunkt = new WegePunkt(new Date(), location.getLatitude(), location.getLongitude());
                         Log.d("Wegepunkt", wegePunkt.toString());
+                        wegepunkte.add(wegePunkt);
+                        Toast.makeText(MainActivity.this, "Wegepunkt wurde gespeichert", Toast.LENGTH_LONG).show();
                     }
 
                 }
